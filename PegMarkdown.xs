@@ -6,7 +6,7 @@
 
 #include <markdown_lib.h>
 
-MODULE = Text::Markdown::XS		PACKAGE = Text::Markdown::XS	PREFIX = TextMarkdown_
+MODULE = Text::Markdown::PegMarkdown		PACKAGE = Text::Markdown::PegMarkdown	PREFIX = TextMarkdown_
 
 PROTOTYPES: DISABLE
 

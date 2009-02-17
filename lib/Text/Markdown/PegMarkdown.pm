@@ -1,4 +1,4 @@
-package Text::Markdown::XS;
+package Text::Markdown::PegMarkdown;
 
 use 5.008000;
 use strict;
@@ -8,13 +8,6 @@ require Exporter;
 
 our @ISA = qw(Exporter);
 
-# Items to export into callers namespace by default. Note: do not export
-# names by default without a very good reason. Use EXPORT_OK instead.
-# Do not simply export all your public functions/methods/constants.
-
-# This allows declaration	use Text::Markdown::XS ':all';
-# If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
-# will save memory.
 our %EXPORT_TAGS = ( 'all' => [ qw(
     markdown	
 ) ] );
@@ -28,10 +21,10 @@ our @EXPORT = qw(
 our $VERSION = '0.01';
 
 require XSLoader;
-XSLoader::load('Text::Markdown::XS', $VERSION);
+XSLoader::load('Text::Markdown::PegMarkdown', $VERSION);
 
 sub new {
-    return bless {}, 'Text::Markdown::XS';
+    return bless {}, 'Text::Markdown::PegMarkdown';
 }
 
 sub markdown {
@@ -58,16 +51,16 @@ __END__
 
 =head1 NAME
 
-Text::Markdown::XS - Perl extension for blah blah blah
+Text::Markdown::PegMarkdown - Perl extension for blah blah blah
 
 =head1 SYNOPSIS
 
-  use Text::Markdown::XS;
+  use Text::Markdown::PegMarkdown;
   blah blah blah
 
 =head1 DESCRIPTION
 
-Stub documentation for Text::Markdown::XS, created by h2xs. It looks like the
+Stub documentation for Text::Markdown::PegMarkdown, created by h2xs. It looks like the
 author of the extension was negligent enough to leave the stub
 unedited.
 

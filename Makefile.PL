@@ -11,14 +11,13 @@ MAKE_FRAG
 }
 
 WriteMakefile(
-    NAME              => 'Text::Markdown::XS',
-    VERSION_FROM      => 'lib/Text/Markdown/XS.pm', # finds $VERSION
+    NAME              => 'Text::Markdown::PegMarkdown',
+    VERSION_FROM      => 'lib/Text/Markdown/PegMarkdown.pm', # finds $VERSION
     PREREQ_PM         => {}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/Text/Markdown/XS.pm', # retrieve abstract from module
-       AUTHOR         => 'Masayoshi Sekimura <sekimura@>') : ()),
+      (ABSTRACT_FROM  => 'lib/Text/Markdown/PegMarkdown.pm', # retrieve abstract from module
+       AUTHOR         => 'Masayoshi Sekimura <sekimura@cpan.org>') : ()),
     LIBS              => [`pkg-config --libs glib-2.0`],
-    DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
-    INC               => '-I. `pkg-config --cflags glib-2.0` -Ipeg-markdown',
+    INC               => '`pkg-config --cflags glib-2.0` -Ipeg-markdown',
     MYEXTLIB          => 'ext/libpeg_markdown.$(DLEXT)',
 );
