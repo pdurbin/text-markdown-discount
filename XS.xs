@@ -4,42 +4,25 @@
 
 #include "ppport.h"
 
-#include <string.h>
-#include <mkdio.h>
+#include <markdown_lib.h>
 
 MODULE = Text::Markdown::XS		PACKAGE = Text::Markdown::XS	PREFIX = TextMarkdown_
 
 PROTOTYPES: DISABLE
 
 SV *
-TextMarkdown_markdown(text)
+TextMarkdown__markdown(text)
         char *text;
     PREINIT:
         SV* r = &PL_sv_undef;
-        int flags = MKD_NOHEADER|MKD_NOPANTS;
-        char *html = NULL;
-        int szhtml;
-        MMIOT *doc;
+        char *out = NULL;
+        int extensions = 0;
+        int output_format = HTML_FORMAT;
     CODE:
-        if ( (doc = mkd_string(text, strlen(text), flags)) == 0 ) {
-            croak("failed at mkd_string");
-        }
+        out = markdown_to_string(text, extensions, output_format); 
+        r = newSVpvn(out, strlen(out));
 
-        if ( !mkd_compile(doc, flags) ) {
-            Safefree(doc);
-            croak("failed at mkd_compile");
-        }
-
-        if ( (szhtml = mkd_document(doc, &html)) == EOF ) {;
-            Safefree(doc);
-            croak("failed at mkd_document");
-        }
-
-        r = newSVpvn(html, szhtml);
-        sv_catpv(r, "\n");
-
-        Safefree(html);
-        Safefree(doc);
+        Safefree(out);
         RETVAL = r;
     OUTPUT:
         RETVAL

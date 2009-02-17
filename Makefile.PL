@@ -9,9 +9,9 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Text/Markdown/XS.pm', # retrieve abstract from module
        AUTHOR         => 'Masayoshi Sekimura <sekimura@>') : ()),
-    LIBS              => ['-L/usr/local/lib -lmarkdown'], # e.g., '-lm'
+    LIBS              => ['-L/usr/local/lib -lpegmarkdown '.`pkg-config --libs glib-2.0`], # e.g., '-lm'
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
-    INC               => '-I. -I/usr/local/include', # e.g., '-I. -I/usr/include/other'
+    INC               => '-I. `pkg-config --cflags glib-2.0` -I/usr/local/include', # e.g., '-I. -I/usr/include/other'
 	# Un-comment this if you add C files to link with later:
     # OBJECT            => '$(O_FILES)', # link all the C files too
 );
