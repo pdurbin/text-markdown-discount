@@ -12,6 +12,11 @@ my $text = read_file('xt/index.text');
 my $a = Text::Markdown::XS::markdown($text);
 my $b = Text::Markdown::markdown($text);
 
+$a =~ s{'}{'\\''}g; # escape ' chars for shell
+$b =~ s{'}{'\\''}g;
+$a = `echo '$a' | tidy --show-body-only 1 --quiet 1 --show-warnings 0`;
+$b = `echo '$b' | tidy --show-body-only 1 --quiet 1 --show-warnings 0`;
+
 unless ( $a eq $b ) {
     print diff \$a, \$b; 
     #die "BOO";
