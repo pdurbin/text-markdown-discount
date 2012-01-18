@@ -42,15 +42,20 @@ MODULE = Text::Markdown::Discount		PACKAGE = Text::Markdown::Discount	PREFIX = T
 PROTOTYPES: DISABLE
 
 SV *
-TextMarkdown__markdown(text)
+TextMarkdown__markdown(text, uflags)
         char *text;
+        int uflags;
     PREINIT:
         SV* r = &PL_sv_undef;
-        int flags = MKD_NOHEADER|MKD_NOPANTS;
+        int flags = MKD_TABSTOP | MKD_NOHEADER;
         char *html = NULL;
         int szhtml;
         Document *doc;
     CODE:
+        if ( uflags ) {
+            flags |= uflags;
+        }
+
         if ( (doc = mkd_string(text, strlen(text), flags)) == 0 ) {
             croak("failed at mkd_string");
         }

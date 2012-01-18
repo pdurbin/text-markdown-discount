@@ -27,11 +27,56 @@ our @EXPORT = qw(
 
 our $VERSION = '0.02';
 
+use constant {
+    MKD_NOPANTS => 0x00000004,
+    MKD_NOHTML  => 0x00000008,
+};
 require XSLoader;
 XSLoader::load('Text::Markdown::Discount', $VERSION);
 
 sub new {
-    return bless {}, 'Text::Markdown::Discount';
+    my $class = shift;
+    my %arg = @_;
+
+    # MKD_NOHEADER | MKD_NOPANTS
+    my $flags = 0x00010000;
+    if (exists $arg{smart}) {
+        if ($arg{smart}) {
+            $flags &= ~MKD_NOPANTS; 
+        } else {
+            $flags |= MKD_NOPANTS; 
+        }
+    }
+    if (exists $arg{filter_html}) {
+        if ($arg{filter_html}) {
+            $flags |= MKD_NOHTML; 
+        } else {
+            $flags &= ~MKD_NOHTML; 
+        }
+    }
+    return bless {_flags => $flags}, $class;
+}
+
+sub smart {
+    my ($self, $val) = @_;
+    my $flags = $self->{_flags};
+    if (defined $val and $val == 0) {
+        $self->{_flags} = $flags |= MKD_NOPANTS; 
+    } else {
+        $self->{_flags} = $flags &= ~MKD_NOPANTS; 
+    }
+    return $self; 
+}
+
+sub filter_html {
+    my ($self, $val) = @_;
+    my $flags = $self->{_flags};
+    if (defined $val and $val == 0) {
+        $self->{_flags} = $flags &= ~MKD_NOHTML; 
+    } else {
+        $self->{_flags} = $flags |= MKD_NOHTML; 
+    }
+    return $self; 
 }
 
 sub markdown {
@@ -48,7 +93,7 @@ sub markdown {
             croak('Calling ' . $self . '->markdown (as a class method) is not supported.');
         }
     }
-    return _markdown($text);
+    return _markdown($text, $self->{_flags});
 }
 
 
