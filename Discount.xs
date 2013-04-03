@@ -16,7 +16,7 @@ TextMarkdown__markdown(text)
         char *text;
     PREINIT:
         SV* r = &PL_sv_undef;
-        int flags = MKD_NOHEADER|MKD_NOPANTS;
+        int flags = MKD_NOHEADER|MKD_NOPANTS|MKD_AUTOLINK;
         char *html = NULL;
         int szhtml;
         MMIOT *doc;
